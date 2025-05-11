@@ -1,0 +1,44 @@
+<div class="w-25 mx-auto">
+  <h3 class="card-title text-center mb-4">Ro'yxatdan o'tish</h3>
+  {{#if registerError}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Error: </strong>
+      {{registerError}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+  {{/if}}
+  <form action="/register" method="POST">
+    <div class="mb-3">
+      <label for="name" class="form-label">Ism</label>
+      <input type="text" class="form-control" id="name" name="name" />
+    </div>
+    <div class="mb-3">
+      <label for="surname" class="form-label">Familiya</label>
+      <input type="text" class="form-control" id="surname" name="surname" />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email manzil</label>
+      <input type="email" class="form-control" id="email" name="email" />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Parol</label>
+      <input
+        type="password"
+        autocomplete="additional-name"
+        class="form-control"
+        id="password"
+        name="password"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Yuborish</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <a href="/login" class="text-decoration-none">Tizimga kirish</a>
+  </div>
+</div>
