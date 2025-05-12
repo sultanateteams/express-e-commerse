@@ -54,4 +54,3 @@ const connectDB = async () => {
 connectDB();
 
 const PORT = process.env.PORT || 4100;
-app.listen(PORT, () => console.log(`Post is running:  ${PORT}`));

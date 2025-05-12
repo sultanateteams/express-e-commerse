@@ -37,18 +37,13 @@ router.get("/login", (req, res) => {
 
 router.post("/register", async (req, res) => {
   const { email, password, name, surname } = req.body;
-  //   console.log("response : ", res);
-  //   console.log("register: ", req);
   if (!email || !password || !name || !surname) {
-    await req.flash("registerError", "Every fields is required!");
-    await res.redirect("/register");
-    await console.log("Every fields is required!");
+    req.flash("registerError", "Every fields is required!");
+    res.redirect("/register");
     return;
   }
   const isExist = await User.findOne({ email });
-  console.log("isExist:  ", isExist);
   if (!isExist) {
-    console.log("!!isExist:  ", !!isExist);
     const passwordS = await bcrypt.hash(password, 10);
     const userData = {
       first_name: req.body.name,
@@ -57,22 +52,18 @@ router.post("/register", async (req, res) => {
       password: passwordS,
     };
     const result = await User.create(userData);
-    console.log("result mongo DB: ", result);
     const token = generateJWTToken(result._id);
     res.cookie("token", token, { httpOnly: true, secure: true });
-    console.log(token);
     res.redirect("/");
   }
   if (!!isExist) {
-    await req.flash("registerError", "Email already exist!");
-    await res.redirect("/register");
-    await console.log("!isExist:  ", !isExist);
+    req.flash("registerError", "Email already exist!");
+    res.redirect("/register");
     return;
   }
 });
 
 router.post("/login", async (req, res) => {
-  console.log("request: ", req.body);
   const { email, password } = req.body;
   if (!email || !password) {
     req.flash("loginError", "Every fields is required!");
@@ -83,21 +74,17 @@ router.post("/login", async (req, res) => {
   if (!isExist) {
     req.flash("loginError", "Email not found!");
     res.redirect("/login");
-    console.log("Email not found");
     return;
   }
 
   const isPasswordTrue = await bcrypt.compare(password, isExist.password);
   if (!isPasswordTrue) {
     req.flash("loginError", "Password incorrect!");
-    console.log("Password incorrect");
     res.redirect("/login");
-    // throw new Error("Password incorrect");
     return;
   }
 
   if (isExist && isPasswordTrue) {
-    console.log("user login: ", isExist);
     const token = generateJWTToken(isExist._id);
     res.cookie("token", token, { httpOnly: true, secure: true });
     res.redirect("/");
