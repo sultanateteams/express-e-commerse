@@ -1,10 +1,22 @@
 import { Router } from "express";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
+import { generateJWTToken } from "../services/token.js";
 
 const router = Router();
 
+router.get("/logout", (req, res) => {
+  if (res.locals.token) {
+    res.redirect("/");
+  }
+  res.clearCookie("token");
+  res.redirect("/");
+});
+
 router.get("/register", (req, res) => {
+  if (!res.locals.token) {
+    res.redirect("/");
+  }
   res.render("register", {
     title: "Register | Title",
     isRegister: true,
@@ -13,6 +25,9 @@ router.get("/register", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
+  if (!res.locals.token) {
+    res.redirect("/");
+  }
   res.render("login", {
     title: "Login | Title",
     isLogin: true,
@@ -43,6 +58,9 @@ router.post("/register", async (req, res) => {
     };
     const result = await User.create(userData);
     console.log("result mongo DB: ", result);
+    const token = generateJWTToken(result._id);
+    res.cookie("token", token, { httpOnly: true, secure: true });
+    console.log(token);
     res.redirect("/");
   }
   if (!!isExist) {
@@ -80,6 +98,8 @@ router.post("/login", async (req, res) => {
 
   if (isExist && isPasswordTrue) {
     console.log("user login: ", isExist);
+    const token = generateJWTToken(isExist._id);
+    res.cookie("token", token, { httpOnly: true, secure: true });
     res.redirect("/");
   }
 });

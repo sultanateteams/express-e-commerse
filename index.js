@@ -8,6 +8,8 @@ import session from "express-session";
 
 import ProductsRouts from "./routes/products.js";
 import AuthRoutes from "./routes/auth.js";
+import varMiddleware from "./middleware/var.js";
+
 dotenv.config();
 const app = express();
 const hbs = create({
@@ -19,7 +21,7 @@ app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", "./views");
 
-app.use(cookieParser("Sulton"));
+app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
@@ -33,6 +35,7 @@ app.use(
 );
 
 app.use(flash());
+app.use(varMiddleware);
 app.use(AuthRoutes);
 app.use(ProductsRouts);
 
