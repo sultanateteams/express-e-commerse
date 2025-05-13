@@ -1,1 +1,48 @@
-<h1>hbs</h1>
+<div class="w-25 mx-auto">
+  <h3 class="card-title text-center mb-4">Add</h3>
+  {{#if addError}}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Error: </strong>
+      {{addError}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+  {{/if}}
+  <form action="/add" method="POST">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" name="title" />
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="3"
+      ></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="image" class="form-label">Image</label>
+      <input type="text" class="form-control" id="image" name="image" />
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">$</span>
+        <input
+          type="number"
+          autocomplete="additional-name"
+          class="form-control"
+          id="price"
+          name="price"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Save</button>
+  </form>
+</div>
