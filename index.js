@@ -6,15 +6,20 @@ import cookieParser from "cookie-parser";
 import { create } from "express-handlebars";
 import session from "express-session";
 
+import hbshelpers from "./utils/index.js";
+
 import ProductsRouts from "./routes/products.js";
 import AuthRoutes from "./routes/auth.js";
+
 import varMiddleware from "./middleware/var.js";
+import userMiddleware from "./middleware/user.js";
 
 dotenv.config();
 const app = express();
 const hbs = create({
   defaultLayout: "main",
   extname: "hbs",
+  helpers: hbshelpers,
 });
 
 app.engine("hbs", hbs.engine);
@@ -34,8 +39,10 @@ app.use(
   })
 );
 
-app.use(flash());
 app.use(varMiddleware);
+app.use(userMiddleware);
+
+app.use(flash());
 app.use(AuthRoutes);
 app.use(ProductsRouts);
 

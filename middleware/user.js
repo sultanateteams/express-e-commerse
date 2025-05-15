@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-export default function (req, res, next) {
-  if (!req.cookies.token) {
-    res.redirect("/");
-    return;
-  }
-
+export default async function (req, res, next) {
   const token = req.cookies.token;
   const openToken = jwt.verify(token, process.env.JWT_SECRET);
-   next();
+  // console.log("openToken:  ", openToken);
+  const currentUser = await User.findById(openToken.userId);
+  // console.log("currentUser:  ", currentUser);
+  req.userId = currentUser._id;
+  next();
 }

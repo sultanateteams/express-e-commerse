@@ -1,1 +1,57 @@
-<h1>Products</h1>
+<h1>Products </h1>
+{{#if products}}
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {{#each products}}
+      <div class="col">
+        <div class="card h-100 pt-4">
+          <img
+            style="width: 85%; margin: 0 auto;"
+            src="https://cdn.educba.com/academy/wp-content/uploads/2023/11/Open-Source-Operating-System.jpg"
+            class="card-img-top"
+            alt="Photo"
+          />
+          <div class="card-body d-flex flex-column justify-content-between">
+            <h1 class="card-title">{{title}}</h1>
+            <h1 class="card-title">{{id}}</h1>
+            <div>
+              <p class="card-text text-end">$ {{price}}.00</p>
+              <div class="d-flex justify-content-end">
+                <div
+                  class="btn-group"
+                  role="group"
+                  aria-label="Default button group"
+                >
+                  {{#if @root.token}}
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                    >Read</button>
+                  {{else}}
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                    >Read</button>
+                    {{!-- {{#if editable}} --}}
+                    {{#ifequal created_by @root.userId}}
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary"
+                      >Edit</button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                      >delete</button>
+                    {{/ifequal}}
+                    {{!-- {{/if}} --}}
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  yo'q
+{{/if}}

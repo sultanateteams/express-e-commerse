@@ -5,14 +5,27 @@ import userMiddleware from "../middleware/user.js";
 
 const router = Router();
 
-router.get("/products", (req, res) => {
+router.get("/products", async (req, res) => {
   if (res.locals.token) {
     res.redirect("/");
   }
-  res.render("products", {
+  // console.log("REQ=========:  ", req.userId);
+  let products = await Product.find().lean().sort({ createdAt: -1 });
+  // products = products.map((el) => {
+    // console.log(el.created_by, req.userId);
+    // console.log(el.created_by.toString() == req.userId.toString());
+    // return {
+    //   ...el,
+    //   editable: el.created_by.toString() == req.userId.toString(),
+    // };
+  // });
+  await res.render("products", {
     title: "Products | Title",
     isProducts: true,
+    products: products,
+    userId: req.userId ? req.userId.toString() : "no userId",
   });
+  // console.log(products);
 });
 
 router.get("/add", authMiddleware, (req, res) => {
@@ -30,7 +43,11 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/add", userMiddleware, async (req, res) => {
+router.post("/add", async (req, res) => {
+  if (!req.cookies.token) {
+    res.redirect("/");
+    return;
+  }
   console.log("req: ", req.body);
   const { title, description, image, price } = req.body;
   if (!title || !description || !image || !price) {
@@ -38,12 +55,12 @@ router.post("/add", userMiddleware, async (req, res) => {
     res.redirect("/add");
     return;
   }
-
   const addedProduct = await Product.create({
     ...req.body,
-    // created_by: process.env.TZ,
+    created_by: req.userId,
   });
-  res.redirect("/");
+  console.log("addedProduct: ", addedProduct);
+  res.redirect("/products");
 });
 
 export default router;
