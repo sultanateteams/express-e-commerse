@@ -5,6 +5,9 @@ import flash from "connect-flash";
 import cookieParser from "cookie-parser";
 import { create } from "express-handlebars";
 import session from "express-session";
+import methodOverride from 'method-override';
+
+
 
 import hbshelpers from "./utils/index.js";
 
@@ -15,6 +18,7 @@ import varMiddleware from "./middleware/var.js";
 import userMiddleware from "./middleware/user.js";
 
 dotenv.config();
+
 const app = express();
 const hbs = create({
   defaultLayout: "main",
@@ -42,6 +46,7 @@ app.use(
 app.use(varMiddleware);
 app.use(userMiddleware);
 
+app.use(methodOverride('_method'));
 app.use(flash());
 app.use(AuthRoutes);
 app.use(ProductsRouts);

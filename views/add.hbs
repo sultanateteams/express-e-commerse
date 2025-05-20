@@ -1,5 +1,11 @@
 <div class="w-25 mx-auto">
-  <h3 class="card-title text-center mb-4">Add</h3>
+  <h3 class="card-title text-center mb-4">
+    {{#if isEdit}}
+      Edit product
+    {{else}}
+      Add product
+    {{/if}}
+  </h3>
   {{#if addError}}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
       <strong>Error: </strong>
@@ -12,37 +18,99 @@
       ></button>
     </div>
   {{/if}}
-  <form action="/add" method="POST">
-    <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" name="title" />
-    </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <textarea
-        class="form-control"
-        id="description"
-        name="description"
-        rows="3"
-      ></textarea>
-    </div>
-    <div class="mb-3">
-      <label for="image" class="form-label">Image</label>
-      <input type="text" class="form-control" id="image" name="image" />
-    </div>
-    <div class="mb-3">
-      <label for="price" class="form-label">Price</label>
-      <div class="input-group">
-        <span class="input-group-text" id="basic-addon1">$</span>
+  {{#if isEdit}}
+    <form action="/edit/{{product._id}}" method="POST">
+      <!-- PUT methodni taqlid qilish uchun -->
+      <input type="hidden" name="_method" value="PUT" />
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
         <input
-          type="number"
-          autocomplete="additional-name"
+          type="text"
           class="form-control"
-          id="price"
-          name="price"
+          id="title"
+          name="title"
+          value="{{product.title}}"
+          required
         />
       </div>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Save</button>
-  </form>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          rows="3"
+          required
+        >{{product.description}}</textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          name="image"
+          value="{{product.image}}"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">$</span>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            name="price"
+            value="{{product.price}}"
+            step="0.01"
+            min="0"
+            required
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Save changes</button>
+    </form>
+
+  {{else}}
+    <form action="/add" method="POST">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input type="text" class="form-control" id="image" name="image" />
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="basic-addon1">$</span>
+          <input
+            type="number"
+            autocomplete="additional-name"
+            class="form-control"
+            id="price"
+            name="price"
+          />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Save</button>
+    </form>
+  {{/if}}
 </div>

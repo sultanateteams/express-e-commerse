@@ -1,0 +1,59 @@
+<div class="container mt-5">
+  <article class="border rounded shadow-sm p-4">
+    <img
+      src="{{{product.image}}}"
+      class="img-fluid rounded mb-3"
+      alt="Mahsulot rasmi"
+    />
+
+    <header class="mb-3">
+      <h2 class="h4">{{{product.title}}}</h2>
+    </header>
+
+    <section class="mb-3">
+      <h6>Tavsif:</h6>
+      <p>{{{product.description}}}</p>
+    </section>
+
+    <section class="mb-3">
+      <h6><b>Narxi: </b>
+        <span class="fw-bold text-success">${{{product.price}}}</span>
+      </h6>
+    </section>
+
+    <section class="mb-3">
+      <h6>Ma'lumotlar:</h6>
+      <ul class="list-unstyled">
+        <li><strong>Yaratilgan:</strong> {{{formatDate product.createdAt}}}</li>
+        <li><strong>Yangilangan:
+            {{#if isUpdated}}
+              </strong> {{{formatDate product.updatedAt}}}</li>
+              {{else}}
+              </strong> Hali update qilinmagan</li>
+
+            {{/if}}
+      </ul>
+    </section>
+
+    <footer class="mt-4">
+      <div class="d-flex justify-content-between">
+      <a href="/products" class="btn btn-outline-primary">Orqaga</a>
+                <div
+                  class="btn-group"
+                  role="group"
+                  aria-label="Default button group"
+                >
+                  <span
+                    class="btn btn-outline-danger"
+                  >Delete</span>
+                  {{#if @root.token}}{{else}}
+                      <a
+                        class="btn btn-outline-success"
+                        href="/add/{{{_id}}}"
+                      >Edit</a>
+                  {{/if}}
+                </div>
+              </div>
+    </footer>
+  </article>
+</div>

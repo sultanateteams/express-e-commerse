@@ -1,4 +1,4 @@
-<h1>Products </h1>
+<h1>Mine products </h1>
 {{#if products}}
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each products}}
@@ -21,26 +21,25 @@
                   role="group"
                   aria-label="Default button group"
                 >
-                  {{#if @root.token}}
-                    <button
+                  <a
+                    href="/product/{{{_id}}}"
+                    class="btn btn-outline-success"
+                  >Read</a>
+                  {{#if @root.token}}{{else}}
+                    {{! <button
                       type="button"
                       class="btn btn-outline-success"
-                    >Read</button>
-                  {{else}}
-                    <button
-                      type="button"
-                      class="btn btn-outline-success"
-                    >Read</button>
+                    >Read</button> }}
                     {{!-- {{#if editable}} --}}
                     {{#ifequal created_by @root.userId}}
-                      <button
-                        type="button"
+                      <a
+                        href="/add/{{{_id}}}"
                         class="btn btn-outline-primary"
-                      >Edit</button>
-                      <button
+                      >Edit</a>
+                      {{! <button
                         type="button"
                         class="btn btn-outline-danger"
-                      >delete</button>
+                      >delete</button> }}
                     {{/ifequal}}
                     {{!-- {{/if}} --}}
                   {{/if}}
