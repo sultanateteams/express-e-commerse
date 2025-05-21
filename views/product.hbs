@@ -25,12 +25,13 @@
       <h6>Ma'lumotlar:</h6>
       <ul class="list-unstyled">
         <li><strong>Yaratilgan:</strong> {{{formatDate product.createdAt}}}</li>
+        <li><strong>Yaratgan:</strong> {{{product.created_by.first_name}}}</li>
         <li><strong>Yangilangan:
             {{#if isUpdated}}
               </strong> {{{formatDate product.updatedAt}}}</li>
+              <li><strong>Yangilagan:</strong> {{{product.updated_by.first_name}}}</li>
               {{else}}
               </strong> Hali update qilinmagan</li>
-
             {{/if}}
       </ul>
     </section>
@@ -43,13 +44,14 @@
                   role="group"
                   aria-label="Default button group"
                 >
-                  <span
+                  <a
                     class="btn btn-outline-danger"
-                  >Delete</span>
+                    href="/delete/{{product._id}}"
+                  >Delete</a>
                   {{#if @root.token}}{{else}}
                       <a
                         class="btn btn-outline-success"
-                        href="/add/{{{_id}}}"
+                        href="/add/{{product._id}}"
                       >Edit</a>
                   {{/if}}
                 </div>

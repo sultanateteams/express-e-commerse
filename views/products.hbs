@@ -26,22 +26,12 @@
                     class="btn btn-outline-success"
                   >Read</a>
                   {{#if @root.token}}{{else}}
-                    {{! <button
-                      type="button"
-                      class="btn btn-outline-success"
-                    >Read</button> }}
-                    {{!-- {{#if editable}} --}}
                     {{#ifequal created_by @root.userId}}
                       <a
                         href="/add/{{{_id}}}"
                         class="btn btn-outline-primary"
                       >Edit</a>
-                      {{! <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                      >delete</button> }}
                     {{/ifequal}}
-                    {{!-- {{/if}} --}}
                   {{/if}}
                 </div>
               </div>
